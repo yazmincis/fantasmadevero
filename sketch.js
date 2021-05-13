@@ -5,6 +5,7 @@ var puertaimg;
 var climber,climberimg;
 var grupopuerta,grupobalcon,grupoinvisible;
 var musica;
+var grupoinvisible2;
 function preload(){
 torreimg = loadImage("tower.png");
   fantasmaimg = loadAnimation("ghost-jumping.png");
@@ -24,7 +25,9 @@ function setup(){
   grupopuerta = new Group();
   grupobalcon =  new Group();
   grupoinvisible = new Group();
-  
+  grupoinvisible2 = new Group();
+  fantasma.debug = true;
+  fantasma.setCollider("circle",0,35,100);
 }
 function draw(){
   background(0);
@@ -40,7 +43,11 @@ function draw(){
    
    
  } 
-    musica.play();
+    if(fantasma.isTouching(grupoinvisible2)){
+      estado = "fin";
+      fantasma.velocityY =3;
+    }
+    //musica.play();
     if(fantasma.y>600){
   estado = "fin";
     }
@@ -61,7 +68,9 @@ function draw(){
  grupopuerta.setVelocityYEach(0); 
     grupobalcon.setVelocityYEach(0);
     grupoinvisible.setVelocityYEach(0);
+    torre.velocityY = 0;
   }
+
   
   if(torre.y>400){
   torre.y = torre.height/4;
@@ -82,12 +91,18 @@ function puertesitas(){
     puerta.depth = fantasma.depth;
     balconcito.depth = fantasma.depth;
     fantasma.depth = fantasma.depth+1;
-    var pisoinvisible = createSprite(puerta.x,50,80,10);
-    pisoinvisible.visible = false;
+    var pisoinvisible = createSprite(puerta.x,45,45,5);
+    pisoinvisible.visible = true;
     pisoinvisible.velocityY = 3;
     grupopuerta.add(puerta);
     grupobalcon.add(balconcito);
     grupoinvisible.add(pisoinvisible);
+    pisoinvisible.debug = true;
+  var  pisoinvisibledown = createSprite(puerta.x,60,45,5);
+    pisoinvisibledown.velocityY = 3;
+    pisoinvisibledown.shapeColor = "red";
+    grupoinvisible2.add(pisoinvisibledown);
+    
     
   }
   }
